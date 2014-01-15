@@ -16,43 +16,129 @@
     </style>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
     <script>
-// This example displays a marker at the center of Australia.
-// When the user clicks the marker, an info window opens.
 
 function initialize() {
   var starbucksLatLng = new google.maps.LatLng(49.284401,-123.108652);
+  var meatBreadLatLng = new google.maps.LatLng(49.282714,-123.109338);
+  var waterCafeLatLng = new google.maps.LatLng(49.284338,-123.109016);
   var mapOptions = {
     zoom: 16,
     center: starbucksLatLng
   };
-
   var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-  var contentString = '<div id="content">'+
+  //firstLocation
+  var contentString1 = '<div id="content">'+
       '<div id="siteNotice">'+
       '</div>'+
       '<h1 id="firstHeading" class="firstHeading">Starbucks</h1>'+
       '<div id="bodyContent">'+
-      '<p><b>Starbucks</b> is obviously a hotspot for webdevs!</p>'+
+      '<p><b>Starbucks</b> is also a hotspot for webdevs!</p>'+
       '</div>'+
       '</div>';
 
   var infowindow = new google.maps.InfoWindow({
-      content: contentString
+      content: contentString1
   });
 
   var markerStarbucks = new google.maps.Marker({
       position: starbucksLatLng,
       map: map,
-      title: 'Uluru (Ayers Rock)'
+      animation: google.maps.Animation.DROP,
+      title: 'Starbucks'
   });
   google.maps.event.addListener(markerStarbucks, 'click', function() {
     infowindow.open(map,markerStarbucks);
   });
 
-}
+  //secondLocation
+  var contentString2 = '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h1 id="firstHeading" class="firstHeading">Meat & Bread</h1>'+
+      '<div id="bodyContent">'+
+      '<p><b>Meat & Bread</b> is also a hotspot for webdevs!</p>'+
+      '</div>'+
+      '</div>';
 
-google.maps.event.addDomListener(window, 'load', initialize);
+  var infowindow2 = new google.maps.InfoWindow({
+      content: contentString2
+  });
+
+  var markerMeatBread = new google.maps.Marker({
+      position: meatBreadLatLng,
+      map: map,
+      animation: google.maps.Animation.DROP,
+      title: 'Meat & Bread'
+  });
+  google.maps.event.addListener(markerMeatBread, 'click', function() {
+    infowindow2.open(map,markerMeatBread);
+  });
+
+  //lastLocation
+  var contentString3 = '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h1 id="firstHeading" class="firstHeading">Water St. Cafe</h1>'+
+      '<div id="bodyContent">'+
+      '<p><b>Water St. Cafe</b> is also a hotspot for webdevs!</p>'+
+      '</div>'+
+      '</div>';
+
+  var infowindow3 = new google.maps.InfoWindow({
+      content: contentString3
+  });
+
+  var markerWater = new google.maps.Marker({
+      position: waterCafeLatLng,
+      map: map,
+      animation: google.maps.Animation.DROP,
+      title: 'Water St. Cafe'
+  });
+  google.maps.event.addListener(markerWater, 'click', function() {
+    infowindow3.open(map,markerWater);
+  });
+
+    // Try HTML5 geolocation
+  if(navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = new google.maps.LatLng(position.coords.latitude,
+                                       position.coords.longitude);
+
+      var infowindow = new google.maps.InfoWindow({
+        map: map,
+        position: pos,
+        content: 'Location found using HTML5.'
+      });
+
+      map.setCenter(pos);
+    }, function() {
+      handleNoGeolocation(true);
+    });
+  } else {
+      // Browser doesn't support Geolocation
+      handleNoGeolocation(false);
+    }
+  }
+
+  function handleNoGeolocation(errorFlag) {
+    if (errorFlag) {
+      var content = 'Error: The Geolocation service failed.';
+    } else {
+      var content = 'Error: Your browser doesn\'t support geolocation.';
+    }
+
+    var options = {
+      map: map,
+      position: new google.maps.LatLng(60, 105),
+      content: content
+    };
+
+    var infowindow = new google.maps.InfoWindow(options);
+    map.setCenter(options.position);
+  }
+
+  google.maps.event.addDomListener(window, 'load', initialize);
 
     </script>
   </head>
