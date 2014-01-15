@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Info windows</title>
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+      #bodyContent {
+        background-color: #EEE;
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
+    <script>
+// This example displays a marker at the center of Australia.
+// When the user clicks the marker, an info window opens.
+
+function initialize() {
+  var starbucksLatLng = new google.maps.LatLng(49.284401,-123.108652);
+  var mapOptions = {
+    zoom: 16,
+    center: starbucksLatLng
+  };
+
+  var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+  var contentString = '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h1 id="firstHeading" class="firstHeading">Starbucks</h1>'+
+      '<div id="bodyContent">'+
+      '<p><b>Starbucks</b> is obviously a hotspot for webdevs!</p>'+
+      '</div>'+
+      '</div>';
+
+  var infowindow = new google.maps.InfoWindow({
+      content: contentString
+  });
+
+  var markerStarbucks = new google.maps.Marker({
+      position: starbucksLatLng,
+      map: map,
+      title: 'Uluru (Ayers Rock)'
+  });
+  google.maps.event.addListener(markerStarbucks, 'click', function() {
+    infowindow.open(map,markerStarbucks);
+  });
+
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+  </head>
+  <body>
+    <div id="map-canvas"></div>
+  </body>
+</html>
